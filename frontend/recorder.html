@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Voice Recorder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Phone frame styling */
+    #phone-frame {
+      width: 375px;
+      height: 667px;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background: white;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 24px 64px; /* padding bottom for nav */
+      box-sizing: border-box;
+    }
+
+    #frame-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to top right, #f3e8ff, #fce7f3);
+      overflow: hidden;
+    }
+
+    .notch-bar {
+      width: 120px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    nav {
+      background: white;
+      box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    nav a img {
+      margin-bottom: 4px;
+    }
+
+    /* Content styling */
+    #content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      text-align: center;
+    }
+
+    button {
+      min-width: 140px;
+    }
+  </style>
+</head>
+<body>
+  <div id="frame-container">
+    <div id="phone-frame">
+      <div class="notch-bar"></div>
+
+      <div id="content">
+        <h1 class="text-2xl font-bold text-red-600 mb-4">Voice Recorder</h1>
+        <button id="startBtn" class="bg-red-500 text-white py-2 px-6 rounded-full mb-4">Start Recording</button>
+        <button id="stopBtn" class="bg-gray-400 text-white py-2 px-6 rounded-full mb-4 hidden">Stop Recording</button>
+
+        <div id="audioContainer" class="mt-4 hidden w-full max-w-xs">
+          <p class="text-sm text-gray-600 mb-2">Your recorded audio:</p>
+          <audio controls id="audioPlayer" class="w-full"></audio>
+        </div>
+      </div>
+
+      <nav>
+        <a href="home.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/fa314a/home.png" />
+          Home
+        </a>
+        <a href="recorder.html" class="text-red-600 font-bold flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/fa314a/voice-presentation.png" />
+          Record
+        </a>
+        <a href="contacts.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/phone.png" />
+          Contacts
+        </a>
+        <a href="settings.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/settings.png" />
+          Settings
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioContainer = document.getElementById('audioContainer');
+
+    let mediaRecorder;
+    let audioChunks = [];
+
+    startBtn.addEventListener('click', async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+        const audioURL = URL.createObjectURL(audioBlob);
+        audioPlayer.src = audioURL;
+        audioContainer.classList.remove('hidden');
+      };
+
+      mediaRecorder.start();
+      startBtn.classList.add('hidden');
+      stopBtn.classList.remove('hidden');
+    });
+
+    stopBtn.addEventListener('click', () => {
+      mediaRecorder.stop();
+      stopBtn.classList.add('hidden');
+      startBtn.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

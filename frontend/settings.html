@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings | Women Safety</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #phone-frame {
+      width: 375px;
+      height: 667px;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background: white;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 24px 64px;
+      box-sizing: border-box;
+    }
+
+    #frame-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to top right, #f3e8ff, #fce7f3);
+      overflow: hidden;
+    }
+
+    .notch-bar {
+      width: 120px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      padding-left: 8px;
+      padding-top: 4px;
+    }
+
+    nav {
+      background: white;
+      box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    nav a img {
+      margin-bottom: 4px;
+    }
+
+    header {
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+      margin-left: 4px;
+    }
+
+    .toggle-bg {
+      width: 44px;
+      height: 24px;
+      background-color: #d1d5db;
+      border-radius: 9999px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-bg.dark {
+      background-color: #4b5563;
+    }
+
+    .toggle-circle {
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 9999px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.3s;
+    }
+
+    .toggle-circle.checked {
+      transform: translateX(20px);
+    }
+  </style>
+</head>
+<body>
+  <div id="frame-container">
+    <div id="phone-frame">
+      <div class="notch-bar"></div>
+
+      <header>
+        <h2 class="text-xl font-semibold text-red-600">⚙️ Settings</h2>
+        <p class="text-gray-600 text-sm">Customize your app experience</p>
+      </header>
+
+      <main class="text-gray-700">
+        <!-- Dark Mode Toggle -->
+        <div class="flex justify-between items-center my-4">
+          <span class="font-medium">Mode</span>
+          <label class="inline-flex relative items-center cursor-pointer">
+            <input type="checkbox" class="sr-only" id="toggleMode" />
+            <div id="toggleBg" class="toggle-bg"></div>
+            <div id="toggleCircle" class="toggle-circle"></div>
+          </label>
+        </div>
+
+        <!-- Caller Name Input + Fake Call -->
+        <div class="mb-4">
+          <label class="block mb-1 text-sm font-medium text-gray-700">Caller Name</label>
+          <input id="callerName" type="text" placeholder="Enter caller name" class="w-full mb-2 px-3 py-2 border rounded" />
+          <button onclick="startFakeCall()" class="w-full block text-center bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">
+            Trigger Fake Call
+          </button>
+        </div>
+
+        <!-- Share Location -->
+        <div class="mb-4">
+          <button onclick="showLocationPopup()" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+            Share My Location
+          </button>
+        </div>
+
+        <!-- Risk Level -->
+        <div class="p-4 bg-red-50 rounded shadow-sm">
+          <h3 class="text-md font-semibold mb-1">📊 Risk Level</h3>
+          <p id="riskText" class="text-sm text-gray-700">Checking...</p>
+        </div>
+
+        <!-- App Info -->
+        <div class="text-sm text-gray-500 mt-6">
+          <p><strong>App:</strong> Women Safety Analytics</p>
+          <p><strong>Version:</strong> 1.0.0</p>
+          <p><strong>Team:</strong> Deshna Jain, Ayush Pandey, Aayushi Singh</p>
+        </div>
+      </main>
+
+      <nav id="navBar">
+        <a href="home.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/home.png" />
+          Home
+        </a>
+        <a href="recorder.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/voice-presentation.png" />
+          Record
+        </a>
+        <a href="contacts.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/phone.png" />
+          Contacts
+        </a>
+        <a href="settings.html" class="text-red-600 flex flex-col items-center font-bold">
+          <img src="https://img.icons8.com/ios-filled/24/fa314a/settings.png" />
+          Settings
+        </a>
+      </nav>
+
+      <!-- Location Modal (hidden initially) -->
+      <div id="locationPopup" class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-70 flex flex-col items-center justify-center text-white z-50 hidden">
+        <div class="bg-white text-black p-6 rounded-lg shadow-lg text-center w-72">
+          <h3 class="text-lg font-semibold mb-2">📍 Location Shared</h3>
+          <p>Your location has been sent to your guardian.</p>
+          <button onclick="closeLocationPopup()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ringtone audio -->
+  <audio id="ringtone" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto" loop></audio>
+
+  <script>
+    const toggleMode = document.getElementById("toggleMode");
+    const page = document.getElementById("phone-frame");
+    const toggleBg = document.getElementById("toggleBg");
+    const toggleCircle = document.getElementById("toggleCircle");
+
+    if (localStorage.getItem("darkMode") === "enabled") {
+      toggleMode.checked = true;
+      page.classList.add("dark");
+      toggleBg.classList.add("dark");
+      toggleCircle.classList.add("checked");
+    }
+
+    toggleMode.addEventListener("change", () => {
+      if (toggleMode.checked) {
+        page.classList.add("dark");
+        toggleBg.classList.add("dark");
+        toggleCircle.classList.add("checked");
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        page.classList.remove("dark");
+        toggleBg.classList.remove("dark");
+        toggleCircle.classList.remove("checked");
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+
+    function updateRiskLevel() {
+      let riskMessage = "Unable to detect status.";
+      navigator.permissions.query({ name: 'geolocation' }).then(result => {
+        if (result.state === 'granted') {
+          riskMessage = "✅ Safe: Location access granted.";
+        } else if (result.state === 'prompt') {
+          riskMessage = "⚠️ Medium Risk: Location access not yet granted.";
+        } else {
+          riskMessage = "❌ High Risk: Location access denied.";
+        }
+        document.getElementById("riskText").innerText = riskMessage;
+      });
+    }
+
+    window.onload = updateRiskLevel;
+
+    function showLocationPopup() {
+      document.getElementById("locationPopup").classList.remove("hidden");
+    }
+
+    function closeLocationPopup() {
+      document.getElementById("locationPopup").classList.add("hidden");
+    }
+
+    function startFakeCall() {
+      const caller = document.getElementById("callerName").value.trim() || "Emergency Help";
+
+      const fakeCall = document.createElement("div");
+      fakeCall.className = "absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 z-50 text-white flex flex-col justify-center items-center animate-pulse";
+      fakeCall.innerHTML = `
+        <h2 class="text-3xl mb-4 font-semibold">📞 Incoming Call</h2>
+        <p class="mb-6 text-lg">Caller: ${caller}</p>
+        <div class="flex gap-6">
+          <button onclick="endFakeCall()" class="bg-red-600 px-6 py-2 rounded-full text-lg">Decline</button>
+          <button onclick="endFakeCall()" class="bg-green-600 px-6 py-2 rounded-full text-lg">Answer</button>
+        </div>
+      `;
+      document.getElementById("phone-frame").appendChild(fakeCall);
+      document.getElementById("navBar").style.display = "none";
+
+      const ringtone = document.getElementById("ringtone");
+      ringtone.play();
+    }
+
+    function endFakeCall() {
+      document.querySelectorAll("#phone-frame > .absolute").forEach(el => el.remove());
+      document.getElementById("navBar").style.display = "flex";
+
+      const ringtone = document.getElementById("ringtone");
+      ringtone.pause();
+      ringtone.currentTime = 0;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fake Call | Women Safety</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes ringPulse {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    .ringing {
+      position: relative;
+    }
+    .ringing::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px;
+      border: 3px solid #ef4444; /* Tailwind red-500 */
+      animation: ringPulse 1.2s ease-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen transition-colors duration-300 dark:bg-gray-900">
+
+  <!-- Mobile App Frame -->
+  <div class="w-[375px] h-[667px] bg-white shadow-xl rounded-xl overflow-hidden border border-gray-300 relative flex flex-col justify-between dark:bg-gray-900 dark:border-gray-700">
+
+    <!-- Main Content -->
+    <main class="flex flex-col items-center justify-center flex-1 px-6 text-center text-gray-900 dark:text-white">
+
+      <div class="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden ringing">
+        <img src="https://img.icons8.com/ios-filled/100/fa314a/user-female.png" alt="Caller" class="w-full h-full" />
+      </div>
+      <h2 class="text-2xl font-bold mb-2">Mom</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-8 text-lg">Calling...</p>
+      <button
+        onclick="endCall()"
+        aria-label="End call"
+        class="bg-red-600 px-8 py-3 rounded-full text-white font-semibold hover:bg-red-700 transition"
+      >
+        End Call
+      </button>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white shadow-inner p-2 flex justify-around dark:bg-gray-800">
+      <a href="home.html" class="text-gray-600 text-xs flex flex-col items-center">
+        <img src="https://img.icons8.com/ios-filled/24/888888/home.png" />
+        Home
+      </a>
+      <a href="recorder.html" class="text-gray-600 text-xs flex flex-col items-center">
+        <img src="https://img.icons8.com/ios-filled/24/888888/voice-presentation.png" />
+        Record
+      </a>
+      <a href="contacts.html" class="text-gray-600 text-xs flex flex-col items-center">
+        <img src="https://img.icons8.com/ios-filled/24/888888/phone.png" />
+        Contacts
+      </a>
+      <a href="settings.html" class="text-red-600 text-xs flex flex-col items-center font-bold">
+        <img src="https://img.icons8.com/ios-filled/24/fa314a/settings.png" />
+        Settings
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const ringtone = new Audio("https://actions.google.com/sounds/v1/alarms/phone_alerts_and_ringtones.ogg");
+    ringtone.loop = true;
+    ringtone.play();
+
+    const timeoutId = setTimeout(() => endCall(), 10000);
+
+    function endCall() {
+      clearTimeout(timeoutId);
+      ringtone.pause();
+      window.location.href = "home.html";
+    }
+  </script>
+
+</body>
+</html>

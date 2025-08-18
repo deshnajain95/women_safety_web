@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emergency Contacts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Phone frame styling */
+    #phone-frame {
+      width: 375px;
+      height: 667px;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background: white;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 24px 64px; /* extra bottom padding for nav */
+      box-sizing: border-box;
+    }
+
+    #frame-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to top right, #f3e8ff, #fce7f3);
+      overflow: hidden;
+    }
+
+    /* Optional notch bar on top */
+    .notch-bar {
+      width: 120px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    /* Bottom Navigation inside frame */
+    nav {
+      background: white;
+      box-shadow: inset 0 1px 0 rgba(0,0,0,0.1);
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+    }
+
+    nav a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    nav a img {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="frame-container">
+    <div id="phone-frame">
+      <div class="notch-bar"></div>
+
+      <!-- Main content with vertical padding -->
+      <div class="pt-5 pb-5">
+        <h1 class="text-2xl font-bold text-red-600 mb-4">Emergency Contacts</h1>
+
+        <div class="mb-6">
+          <input id="name" type="text" placeholder="Contact Name"
+            class="w-full mb-3 px-4 py-2 border border-gray-300 rounded" />
+          <input id="number" type="tel" placeholder="Contact Number"
+            class="w-full mb-3 px-4 py-2 border border-gray-300 rounded" />
+          <button onclick="addContact()"
+            class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600 transition">Add Contact</button>
+        </div>
+
+        <div id="contactList" class="space-y-3 max-h-[250px] overflow-y-auto">
+          <!-- Contact cards appear here -->
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <nav>
+        <a href="home.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/fa314a/home.png" />
+          Home
+        </a>
+        <a href="recorder.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/voice-presentation.png" />
+          Record
+        </a>
+        <a href="contacts.html" class="text-red-600 font-bold flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/fa314a/phone.png" />
+          Contacts
+        </a>
+        <a href="settings.html" class="text-gray-600 flex flex-col items-center">
+          <img src="https://img.icons8.com/ios-filled/24/888888/settings.png" />
+          Settings
+        </a>
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    function addContact() {
+      const name = document.getElementById("name").value.trim();
+      const number = document.getElementById("number").value.trim();
+
+      if (!name || !number) {
+        alert("Please enter both name and contact number.");
+        return;
+      }
+
+      const contactList = document.getElementById("contactList");
+
+      const card = document.createElement("div");
+      card.className = "bg-white border border-gray-200 rounded p-4 shadow";
+      card.innerHTML = `
+        <p class="font-semibold text-red-600">${name}</p>
+        <p class="text-gray-700">${number}</p>
+      `;
+
+      contactList.appendChild(card);
+
+      document.getElementById("name").value = "";
+      document.getElementById("number").value = "";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!-- splash.html - Animated splash screen with logo2.png -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Women Safety | Splash</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .animate-pop {
+      animation: popIn 0.8s ease-out forwards;
+    }
+
+    /* Phone frame styling */
+    #phone-frame {
+      width: 375px;
+      height: 667px;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #d8b4fe, #fbcfe8); /* matching bg vibe */
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #frame-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: linear-gradient(to top right, #f3e8ff, #fce7f3);
+    }
+
+    /* Optional: notch bar on top */
+    .notch-bar {
+      width: 120px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    /* Center content inside phone */
+    #splash-content {
+      text-align: center;
+      z-index: 5;
+    }
+  </style>
+  <script>
+    setTimeout(() => {
+      window.location.href = "onboarding.html";
+    }, 3000);
+  </script>
+</head>
+<body>
+  <div id="frame-container">
+    <div id="phone-frame">
+      <div class="notch-bar"></div>
+      <div id="splash-content">
+        <img src="images/logo2.png" alt="SheShield Logo" class="mx-auto mb-4 w-28 h-28 rounded-full shadow-lg animate-pop" />
+        <h1 class="text-3xl font-bold text-purple-800">Women Safety</h1>
+        <p class="text-gray-700">Your digital guardian angel</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
